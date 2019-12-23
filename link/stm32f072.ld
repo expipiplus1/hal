@@ -4,7 +4,7 @@ ENTRY(__reset)
 
 MEMORY
 {
-    FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 64K /* 128KB for the STM32F072B */
+    FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 63K /* 128KB for the STM32F072B */
     RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 16K
 }
 
