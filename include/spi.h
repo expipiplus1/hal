@@ -116,10 +116,17 @@ public:
                   | _::template CR1_BR<divider>                 // clock divider
                   | spi_mode_traits<mode>::template mode<_>()   // SPI-mode
                   | (order == lsb_first ?  _::CR1_LSBFIRST : 0) // lsb first
+                  | _::CR1_SSM | _::CR1_SSI                     // manage NSS pin internally
                   ;
         SPI().CR2 = _::CR2_RESET_VALUE;         // reset control register 2
-        SPI().CR2 |= _::CR2_SSOE;               // ss output enable
+        SPI().CR2 |= _::CR2_SSOE                // ss output enable
+                  |  _::CR2_TXDMAEN             // enable DMA
+                  |  _::template CR2_DS<7>;     // 8 bit transfer size
         SPI().CR1 |= _::CR1_SPE;                // enable spi
+    }
+
+    static inline volatile uint8_t* getDest(){
+      return reinterpret_cast<volatile uint8_t*>(&SPI().DR);
     }
 
     __attribute__((always_inline))
